@@ -57,7 +57,7 @@ unzip /tmp/backend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unzip backend"
 
 npm install &>>$LOG_FILE_NAME
-VALIDATE $?"Installing dependencies"
+VALIDATE $? "Installing dependencies"
 
 cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
 
