@@ -12,7 +12,7 @@ TIMESTAMP=$(date +%y-%m-%d-%H-%M-%S)
 LOG_FILE_NAME="$LOGS_FOLDER/$LOG_FILE-$TIMESTAMP.log"
 
 VALIDATE(){
-   if [ $1 -ne 0 ]
+    if [ $1 -ne 0 ]
     then
         echo -e "$2 ... $R FAILURE $N"
         exit 1
@@ -29,7 +29,6 @@ CHECK_ROOT(){
     fi    
 }
 
-mkdir -p $LOGS_FOLDER
 echo "Script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 
 CHECK_ROOT
@@ -54,9 +53,6 @@ VALIDATE $? "Moving to HTML directory"
 
 unzip /tmp/frontend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unzipping the frontend code"
-
-cp /home/ec2-user/expense-shell/expense.conf /etc/nginx/default.d/expense.conf
-VALIDATE $? "Copied expense config"
 
 systemctl restart nginx &>>$LOG_FILE_NAME
 VALIDATE $? "Restarting nginx "
