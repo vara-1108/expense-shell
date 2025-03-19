@@ -42,23 +42,16 @@ VALIDATE $? "Enabling NodeJS 20"
 dnf install nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing NodeJS"
 
-id expense &>>$LOG_FILE_NAME
-if [ $? -ne 0 ]
-then
-    useradd expense &>>$LOG_FILE_NAME
-    VALIDATE $? "Adding expense user"
-else
-   echo -e "expense user already exists ... $Y SKIPPING $N"
-fi   
-
-mkdir -p /app &>>$LOG_FILE_NAME
+useradd expense &>>$LOG_FILE_NAME
+VALIDATE $? "Adding expense user"
+ 
+mkdir /app &>>$LOG_FILE_NAME
 VALIDATE $? "Creating app directory"
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
 VALIDATE $? "Downloading backend"
 
 cd /app
-rm -rf /app/*
 
 unzip /tmp/backend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "unzip backend"
@@ -82,5 +75,5 @@ VALIDATE $? "Daemon Reload"
 systemctl enable backend &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling backend"
 
-systemctl restart backend &>>$LOG_FILE_NAME
+systemctl start backend &>>$LOG_FILE_NAME
 VALIDATE $? "Starting Backend"
